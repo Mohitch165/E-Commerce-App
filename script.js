@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
         {id: 3, name: "Product 3", price: 44.99},
     ]
 
-    const cart = [];
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     const productList = document.getElementById("product-list");
     const cartItems = document.getElementById("cart-items");
@@ -34,6 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function addToCart(value) { // Function to add products to cart
         cart.push(value);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        console.log(cart);
         renderCart();
     }
 
@@ -47,7 +49,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 totalPrice += items.price;
                 const cartProduct = document.createElement("div");
                 cartProduct.innerHTML = `
-                ${items.name} - $${items.price.toFixed(2)}`
+                ${items.name} - $${items.price.toFixed(2)}
+                <button data-index="${index} class="remove">Remove</button>`;
+                cartProduct.querySelector("button").addEventListener("click", () => {
+                    cart.splice(index, 1);
+                    //localStorage.setItem("cart", JSON.stringify(cart));
+                    renderCart();
+                })
                 cartItems.appendChild(cartProduct);
                 totalPriceDisplay.textContent = `$${totalPrice.toFixed(2)}`;
             })
@@ -60,7 +68,10 @@ document.addEventListener("DOMContentLoaded", () => {
     checkOutBtn.addEventListener('click', () => { // Event listener to checkout and clear cart
         cart.length = 0;
         alert("Checkout Successful");
+        localStorage.removeItem("cart");
         renderCart();
         cartTotal.classList.add("hidden");
-    })
+    });
+
+    renderCart();
 });
