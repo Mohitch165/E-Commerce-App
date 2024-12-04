@@ -2,7 +2,7 @@
 
 Javascript project to simulate online shopping cart functionality to understand dynamically rendering and handling data to the webpage.
 
-<ul>Functionality
+<ul><h2>Functionality</h2>
   <li>Inject Product data from storage</li>
   <li>Add Products to cart</li>
   <li>Sum value of Products in cart</li>
